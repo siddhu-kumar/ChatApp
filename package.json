@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/siddhu-kumar/socketio.git"
+    "url": "git+https://github.com/siddhu-kumar/ChatApp.git"
   },
   "author": "siddhu",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/siddhu-kumar/socketio/issues"
+    "url": "https://github.com/siddhu-kumar/ChatApp/issues"
   },
-  "homepage": "https://github.com/siddhu-kumar/socketio#readme",
+  "homepage": "https://github.com/siddhu-kumar/ChatApp#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.1",

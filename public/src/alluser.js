@@ -1,11 +1,13 @@
 async function add_friend(e,_id) {
     e.preventDefault()
     console.log('working')
+    const token = localStorage.getItem('token')
     console.log(_id)
     await fetch('/add-friend',{
         method:'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body:JSON.stringify({id:_id})
     })
@@ -15,6 +17,9 @@ async function add_friend(e,_id) {
     .then(function(myJson) {
         console.log(typeof(JSON.stringify(myJson)))
     })
+    .catch(function(err) {
+        console.log(err)
+    }) 
 }
 
 async function main() {
@@ -42,5 +47,9 @@ async function main() {
         });
         console.log(myJson)
     })
+    .catch(function(err) {
+        console.log(err)
+    }) 
 }
+
 main()

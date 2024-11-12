@@ -1,7 +1,7 @@
 const express = require('express')
 const { registerUser, allUser, addFriend } = require('../controller/user.js')
-
+const { middleware } = require('../middleware/middleware.js')
 exports.userRoute = express.Router()
-    .post('/register', registerUser)
+    .post('/register-user', express.json(), registerUser)
     .get('/all-users', allUser)
-    .post('/add-friend', express.json(),addFriend)
+    .post('/add-friend', express.json(), middleware, addFriend)
