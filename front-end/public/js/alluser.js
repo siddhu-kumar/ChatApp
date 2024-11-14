@@ -20,13 +20,16 @@ async function add_friend(e,_id) {
     .catch(function(err) {
         console.log(err)
     }) 
+    location.replace('/')
 }
 
 async function main() {
+    const token = localStorage.getItem('token')
     await fetch('/all-users',{
         method: 'GET',
         headers: {
-            'Content-Type':'application/json'
+            'Content-Type':'application/json',
+            'Authorization': `Bearer ${token}`
         },
     })
     .then(function(response) {

@@ -5,11 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
-    <link rel="stylesheet" href="./style/style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
-
+<script>
+    window.onload = function() {
+        myFriend()
+    }
+    function myFunction(e) {
+        e.preventDefault()
+        window.location.replace("/all-user")
+    }
+</script>
 <body>
+    <div id="my-friends">
+        <ul>
+
+        </ul>
+    </div>
     <div class="my-detail">
+        <button onclick="myFunction(event)">Home</button>
         <div class="my-image"></div>
 
     </div>
@@ -27,8 +41,8 @@
         </div>
     </div>
     
-    <script src="http://localhost:3000/socket.io/socket.io.min.js"></script>
-    <script src="../src/socket.js"></script>
+    <script src="http://localhost:8000/socket.io/socket.io.min.js"></script>
+    <script src="./js/socket.js"></script>
 </body>
 
 </html>

@@ -1,18 +1,14 @@
 const express = require('express')
 const { Server } = require('socket.io')
-const { join } = require('node:path')
 const { chatDB } = require('./back-end/models/db.js')
 const { userRoute } = require('./back-end/routes/routes.js')
-const {routes} = require('./public/routes.js')
 const app = express()
 
-const expressServer = app.listen(3000)
+const expressServer = app.listen(8000,'127.0.0.1')
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(join(__dirname, 'public')));
 
 app.use('/', userRoute)
-app.use('/',routes)
 
 const io = new Server(expressServer, {
     cors: '*',

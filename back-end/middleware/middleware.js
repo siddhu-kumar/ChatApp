@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken')
 
 exports.middleware = (req, res, next) => {
     const authHeader = req.header('Authorization');
-    console.log(`header ${authHeader}`)
     if (!authHeader) {
         console.log('Unauthrized access!')
         res.status(401).json({ 'Error': 'Unauthrized access!' })
@@ -11,7 +10,8 @@ exports.middleware = (req, res, next) => {
     try {
         const token = authHeader.split(" ")[1];
         const decoded = jwt.verify(token, 'hello-chat')
-        req.useId = decoded.useId
+        req.userId = decoded.userId
+        console.log(req.userId)
         console.log('miidleware next')
         next()
     } catch (err) {

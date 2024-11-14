@@ -1,4 +1,10 @@
-const socket = io('http://localhost:3000')
+const socket = io('http://127.0.0.1:8000')
+console.log('script')
+document.getElementById("my-friends").onload = function() {myFriend()}
+
+function myFriend() {
+    console.log('working now')
+}
 
 async function handleSubmit(e) {
     e.preventDefault()

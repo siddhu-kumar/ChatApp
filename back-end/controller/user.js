@@ -15,14 +15,19 @@ exports.allUser = async (req, res) => {
     const allUser = await User.find();
     for (i = 0; i < allUser.length; i++) {
         const { _id, username, contact } = allUser[i];
+
+        if(_id.toString() === req.userId) {
+            continue;
+        }
         userList.push({ _id, username, contact })
     }
     res.status(200).json(userList);
 }
 
 exports.addFriend = async (req, res) => {
-    console.log('hello frnd')
     const { id } = req.body;
-    console.log(req.userId)
+    const getUser = await User.findById(req.userId)
+    getUser.friends.push(id)
+    await getUser.save()
     res.status(200)
 }

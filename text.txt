@@ -1,0 +1,239 @@
+// server.js
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+const server = http.createServer((req, res) => {
+    const reqUrl = req.url;
+
+    // Serve HTML files (home, about, contact)
+    if (reqUrl === '/' || reqUrl === '/index.html') {
+        serveFile(res, 'index.html', 'text/html');
+    } else if (reqUrl === '/about') {
+        serveFile(res, 'about.html', 'text/html');
+    } else if (reqUrl === '/contact') {
+        serveFile(res, 'contact.html', 'text/html');
+    }
+    // Serve static files (CSS, JS)
+    else if (reqUrl.startsWith('/public/')) {
+        serveStaticFiles(req, res);
+    }
+    // Handle 404 for other routes
+    else {
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end('Page not found');
+    }
+});
+
+// Function to serve HTML files
+function serveFile(res, filename, contentType) {
+    const filePath = path.join(__dirname, filename);
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'text/plain');
+            res.end('Error loading the file');
+            return;
+        }
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', contentType);
+        res.end(data);
+    });
+}
+
+// Function to serve static files (CSS, JS)
+function serveStaticFiles(req, res) {
+    const filePath = path.join(__dirname, req.url); // The full path to the static file
+    const extname = path.extname(filePath).toLowerCase();
+    
+    let contentType = 'application/octet-stream'; // Default content type
+
+    // Set content type based on file extension
+    if (extname === '.css') {
+        contentType = 'text/css';
+    } else if (extname === '.js') {
+        contentType = 'application/javascript';
+    }
+
+    // Read and serve the static file
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'text/plain');
+            res.end('Error loading static file');
+            return;
+        }
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', contentType);
+        res.end(data);
+    });
+}
+
+// Start the server
+server.listen(3000, () => {
+    console.log('Server running at http://localhost:3000/');
+});
+
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+
+Sure! If you want to stick with pure Node.js (without using any frameworks like Express), you can definitely do so. Node.js provides a built-in http module that allows you to handle HTTP requests directly.
+
+I'll show you a more refined approach to handling multiple routes with pure Node.js and JavaScript. You can still organize your routes in a clean way, but you won't have the abstractions or helpers that come with a framework like Express.
+Setting Up a Simple HTTP Server with Multiple Routes in Pure Node.js
+
+    Create the HTML Files: Make sure you have different HTML files for different pages, such as index.html, about.html, and contact.html.
+
+    For example:
+
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>Welcome to the Home Page!</h1>
+</body>
+</html>
+
+Similarly, create about.html and contact.html.
+
+Create the Node.js HTTP Server:
+
+Here's an example of how you can write a simple HTTP server that handles multiple routes and serves HTML files for each route using the built-in http and fs modules.
+
+    // server.js
+    const http = require('http');
+    const fs = require('fs');
+    const path = require('path');
+
+    // Create the HTTP server
+    const server = http.createServer((req, res) => {
+        // Route handling
+        switch (req.url) {
+            case '/':
+                serveFile(res, 'index.html');
+                break;
+            case '/about':
+                serveFile(res, 'about.html');
+                break;
+            case '/contact':
+                serveFile(res, 'contact.html');
+                break;
+            default:
+                res.statusCode = 404;
+                res.setHeader('Content-Type', 'text/plain');
+                res.end('Page not found');
+        }
+    });
+
+    // Function to serve HTML files
+    function serveFile(res, filename) {
+        const filePath = path.join(__dirname, filename);
+
+        fs.readFile(filePath, (err, data) => {
+            if (err) {
+                res.statusCode = 500;
+                res.setHeader('Content-Type', 'text/plain');
+                res.end('Error loading the file');
+                return;
+            }
+
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/html');
+            res.end(data);
+        });
+    }
+
+    // Start the server
+    server.listen(3000, () => {
+        console.log('Server running at http://localhost:3000/');
+    });
+
+Explanation of the Code:
+
+    http.createServer(): This function creates an HTTP server that listens to requests and sends responses.
+    switch (req.url): This checks the request URL to determine which HTML file to serve. Depending on the route (e.g., /, /about, or /contact), it calls the serveFile() function.
+    fs.readFile(): This is used to read the HTML files from the filesystem and send them as a response to the browser.
+    res.setHeader('Content-Type', 'text/html'): This sets the correct content type for HTML files so the browser knows how to interpret them.
+    404 Handling: If the URL doesn't match any defined routes, a 404 error is sent back with a message indicating "Page not found".
+
+How It Works:
+
+    When the user visits http://localhost:3000/, the server will serve index.html.
+    Visiting http://localhost:3000/about will serve the about.html file.
+    Similarly, http://localhost:3000/contact will serve the contact.html file.
+    If the user tries to access any URL that doesn't match one of the routes, the server will return a 404 error with the message "Page not found".
+
+How to Run the Server:
+
+    Create the files: Make sure you have the server.js, index.html, about.html, and contact.html files in the same directory.
+    Run the server: Open your terminal and navigate to the directory where these files are located.
+
+    node server.js
+
+    Open the browser: Open http://localhost:3000 to see your home page, and test other routes like http://localhost:3000/about and http://localhost:3000/contact.
+
+Handling Static Assets (Optional):
+
+If you want to serve other static files (like CSS, JavaScript, or images) along with your HTML files, you can use fs.readFile() to serve those as well. You can check the req.url to serve those files, but it requires handling different file types (e.g., image/png, text/css) and appropriate headers.
+
+For example:
+
+// A basic implementation to serve static assets (like CSS, JS, and images)
+switch (req.url) {
+    case '/':
+        serveFile(res, 'index.html');
+        break;
+    case '/about':
+        serveFile(res, 'about.html');
+        break;
+    case '/contact':
+        serveFile(res, 'contact.html');
+        break;
+    case '/style.css':
+        serveStaticFile(res, 'style.css', 'text/css');
+        break;
+    case '/logo.png':
+        serveStaticFile(res, 'logo.png', 'image/png');
+        break;
+    default:
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end('Page not found');
+}
+
+function serveStaticFile(res, filename, contentType) {
+    const filePath = path.join(__dirname, filename);
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'text/plain');
+            res.end('Error loading the file');
+            return;
+        }
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', contentType);
+        res.end(data);
+    });
+}
+
+Conclusion:
+
+This example shows how to create a simple HTTP server in pure Node.js to serve different HTML pages based on the URL path. By using http.createServer() and fs.readFile(), you can easily implement routing logic without the need for external frameworks.
+
+You can expand this approach by:
+
+    Adding more complex route handling (like POST requests).
+    Serving dynamic content (e.g., JSON or templates).
+    Handling static files like images, CSS, and JavaScript.
+
+This gives you a lot of flexibility while keeping things simple and framework-free!
