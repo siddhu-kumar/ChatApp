@@ -1,5 +1,6 @@
 async function registerUser(e) {
     e.preventDefault()
+    console.log('register')
     const form = document.getElementById('myForm')
     const formData = new FormData(form)
     const data = {}
@@ -7,7 +8,7 @@ async function registerUser(e) {
         data[key]=value
     })
     console.log(data)
-    await fetch('/register-user',{
+    await fetch('http://127.0.0.1:8000/register-user',{
         method:'POST',
         headers:{
             'Content-Type':'application/json'

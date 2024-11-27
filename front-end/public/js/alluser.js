@@ -3,7 +3,7 @@ async function add_friend(e,_id) {
     console.log('working')
     const token = localStorage.getItem('token')
     console.log(_id)
-    await fetch('/add-friend',{
+    await fetch('http:127.0.0.1:8000/add-friend',{
         method:'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ async function add_friend(e,_id) {
 
 async function main() {
     const token = localStorage.getItem('token')
-    await fetch('/all-users',{
+    await fetch('http://127.0.0.1:8000/all-users',{
         method: 'GET',
         headers: {
             'Content-Type':'application/json',

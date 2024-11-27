@@ -1,5 +1,6 @@
 const express = require('express')
 const { Server } = require('socket.io')
+const cors = require('cors')
 const { chatDB } = require('./back-end/models/db.js')
 const { userRoute } = require('./back-end/routes/routes.js')
 const app = express()
@@ -7,6 +8,7 @@ const app = express()
 const expressServer = app.listen(8000,'127.0.0.1')
 
 app.use(express.urlencoded({ extended: true }));
+app.use(cors())
 
 app.use('/', userRoute)
 

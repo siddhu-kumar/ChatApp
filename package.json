@@ -2,7 +2,6 @@
   "name": "socketio",
   "version": "1.0.0",
   "description": "socket",
-  "main": "index.js",
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
