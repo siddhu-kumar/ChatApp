@@ -5,44 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/home.css">
 </head>
 <script>
     window.onload = function() {
+        console.log('onload')
         myFriend()
     }
     function myFunction(e) {
         e.preventDefault()
         window.location.replace("/all-user")
     }
+    function logout(event) {
+        localStorage.clear("token")
+        window.location.replace('/login')
+    }
 </script>
 <body>
-    <div id="my-friends">
-        <ul>
-
-        </ul>
-    </div>
-    <div class="my-detail">
-        <button onclick="myFunction(event)">Home</button>
-        <div class="my-image"></div>
-
-    </div>
-    <div class="chat">
-        <div id="messages">
-            <ul>
-             
-            </ul>
+    <!-- This is navbar with Home page redirection and Showing Main User profile and will also logout the User(Main) -->
+    <div class="navbar">
+        <div class="my-detail">
+            <button class="chat-button" onclick="myFunction(event)">Home</button>
+            <div class="my-image"></div>
         </div>
-        <div class="chat-forms">
-            <form name="socket" onsubmit="handleSubmit(event)" action="">
-                <input class="chat-input" type="text" name="message" placeholder="Message" autofocus>
-                <button class="chat-button" type="submit">Send</button>
-            </form>
+        <button class="chat-button logout" onclick="logout(event)">logout</button>
+    </div>
+    <div class="chat-page">
+        <div id="my-friends">
+   
+        </div>
+        <div id="chat">
+        
+
+
         </div>
     </div>
-    
+
     <script src="http://localhost:8000/socket.io/socket.io.min.js"></script>
     <script src="/socket.js"></script>
+    <script src="/myFriend.js"></script>
+    <script src="/index.js"></script>
 </body>
 
 </html>
