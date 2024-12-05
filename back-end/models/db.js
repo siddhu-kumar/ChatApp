@@ -7,7 +7,7 @@ async function connectChatDB () {
         await mongoose.connect(uri);
         console.log('chatDB connected.')
     } catch(err) {
-        console.log('chatDB not connected')
+        console.log('chatDB not connected',err)
     }
 }
 

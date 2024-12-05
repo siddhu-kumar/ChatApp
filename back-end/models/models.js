@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const { userSchema, friendSchema } = require('./schema.js')
+const { userSchema, chatSchema } = require('./schema.js')
 
 exports.User = mongoose.model('User',userSchema)
-exports.Friend = mongoose.model('Friend',friendSchema)
+// exports.Friend = mongoose.model('Friend',friendSchema)
+exports.Chats = mongoose.model('FriendChat',chatSchema)
